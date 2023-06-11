@@ -1,25 +1,47 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <functional>
 
-// Typedef voor de lambda-functie
-typedef std::function<int(const std::vector<int>&)> MyLambdaType;
+//De rule of 350 is een vuistregel die wordt gebruikt in softwareontwikkeling om te bepalen of een bepaalde klasse te complex is.
+//Volgens deze regel mag een klasse niet meer dan 350 regels code bevatten. Het doel van deze regel is om de
+//complexiteit van een klasse te beperken en de leesbaarheid,
+//onderhoudbaarheid en herbruikbaarheid van de code te verbeteren/
 
-int main() {
-    std::vector<int> numbers = { 1, 2, 3, 4, 5 };
+//In dit voorbeeld wordt een klasse genaamd MyClass gedefinieerd. De klasse heeft een
+//dynamisch gealloceerd array data en een variabele size. Het volgt de Rule
+//of 3 door een destructor, kopieconstructor en toekenning-operator te implementeren.
+class MyClass {
 
-    MyLambdaType sum = [](const std::vector<int>& nums) {
-        int total = 0;
-        for (int num : nums) {
-            total += num;
+private:
+    int* data;
+    int size;
+
+public:
+    // Constructor
+    MyClass(int s) : size(s) {
+        data = new int[size];
+    }
+
+    // Destructor
+    ~MyClass() {
+        delete[] data;
+    }
+
+    // Kopieconstructor
+    MyClass(const MyClass& other) : size(other.size) {
+        data = new int[size];
+        for (int i = 0; i < size; i++) {
+            data[i] = other.data[i];
         }
-        return total;
-    };
+    }
 
-    int result = sum(numbers);
-
-    std::cout << "De som van de getallen is: " << result << std::endl;
-
-    return 0;
-}
+    // Toekenning-operator
+    MyClass& operator=(const MyClass& other) {
+        if (this != &other) {
+            delete[] data;
+            size = other.size;
+            data = new int[size];
+            for (int i = 0; i < size; i++) {
+                data[i] = other.data[i];
+            }
+        }
+        return *this;
+    }
+};
