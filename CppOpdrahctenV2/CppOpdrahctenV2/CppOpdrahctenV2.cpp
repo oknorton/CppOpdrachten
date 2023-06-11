@@ -1,36 +1,86 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
 
-bool isPalindrome(const std::string& s) {
-    std::string lowerCaseString = s;
-    std::transform(lowerCaseString.begin(), lowerCaseString.end(), lowerCaseString.begin(), ::tolower);
+std::vector<std::string> words = { "hallo", "wereld", "en Peter", "programma" };
 
-    int left = 0;
-    int right = lowerCaseString.length() - 1;
+std::string getRandomWord() {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
+    int index = std::rand() % words.size();
+    return words[index];
+}
 
-    while (left < right) {
-        if (lowerCaseString[left] != lowerCaseString[right]) {
+std::string getHiddenWord(const std::string& word, const std::vector<bool>& revealed) {
+    std::string hiddenWord;
+    for (size_t i = 0; i < word.length(); ++i) {
+        if (revealed[i]) {
+            hiddenWord += word[i];
+        }
+        else {
+            hiddenWord += '*';
+        }
+    }
+    return hiddenWord;
+}
+
+bool isLetterInWord(const std::string& word, char letter) {
+    return word.find(letter) != std::string::npos;
+}
+
+void revealLetter(const std::string& word, std::vector<bool>& revealed, char letter) {
+    for (size_t i = 0; i < word.length(); ++i) {
+        if (word[i] == letter) {
+            revealed[i] = true;
+        }
+    }
+}
+
+bool isWordComplete(const std::vector<bool>& revealed) {
+    for (bool letterRevealed : revealed) {
+        if (!letterRevealed) {
             return false;
         }
-        left++;
-        right--;
     }
-
     return true;
 }
 
-int main() {
-    std::string input;
-    std::cout << "Enter a string: ";
-    std::cin >> input;
+void playHangman() {
+    std::string word = getRandomWord();
+    std::vector<bool> revealed(word.length(), false);
+    int misses = 0;
 
-    if (isPalindrome(input)) {
-        std::cout << input << " is a palindrome" << std::endl;
+    while (true) {
+        std::cout << "(Guess) Enter a letter in the word " << getHiddenWord(word, revealed) << " > ";
+        char guess;
+        std::cin >> guess;
+
+        if (isLetterInWord(word, guess)) {
+            if (isWordComplete(revealed)) {
+                std::cout << "The word is " << word << ". You missed " << misses << " time." << std::endl;
+                break;
+            }
+            if (std::find(revealed.begin(), revealed.end(), true) != revealed.end()) {
+                std::cout << guess << " is already in the word" << std::endl;
+            }
+            revealLetter(word, revealed, guess);
+        }
+        else {
+            std::cout << guess << " is not in the word" << std::endl;
+            misses++;
+        }
     }
-    else {
-        std::cout << input << " is not a palindrome" << std::endl;
-    }
+}
+
+int main() {
+    char playAgain;
+    do {
+        playHangman();
+
+        std::cout << "Do you want to guess for another word? Enter 'y' or 'n' > ";
+        std::cin >> playAgain;
+    } while (playAgain == 'y');
 
     return 0;
 }
