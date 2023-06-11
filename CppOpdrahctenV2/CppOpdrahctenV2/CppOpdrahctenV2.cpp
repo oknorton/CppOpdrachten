@@ -1,32 +1,40 @@
 #include <iostream>
 #include <fstream>
+#include <cctype>
 #include <string>
 
+int countVowels(const std::string& text) {
+    int vowelCount = 0;
+    for (char c : text) {
+        c = std::tolower(c);
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+            vowelCount++;
+    }
+    return vowelCount;
+}
+//Testbestanden om te gebruiken "bestand1.txt", "bestand2.txt"
 int main() {
-    std::ifstream inputFile("Exercise3_5.txt");
+    std::string filename;
+    std::cout << "Kies een bestand: ";
+    std::cin >> filename;
+
+    std::ifstream inputFile(filename);
     if (!inputFile) {
-        std::cout << "File does not exist." << std::endl;
+        std::cout << "Bestand bestaat niet." << std::endl;
         return 1;
     }
 
+    std::string fileContents;
     std::string line;
-    int characterCount = 0;
-
     while (std::getline(inputFile, line)) {
-        characterCount += line.length();
+        fileContents += line;
     }
 
     inputFile.close();
 
-    std::ofstream outputFile("Exercise3_5.txt");
-    if (!outputFile) {
-        return 1;
-    }
+    int vowelCount = countVowels(fileContents);
 
-    outputFile << "Total number of characters: " << characterCount << std::endl;
-    outputFile.close();
-
-    std::cout << "Characterr count appended." << std::endl;
+    std::cout << "Vowel count: " << vowelCount << std::endl;
 
     return 0;
 }
