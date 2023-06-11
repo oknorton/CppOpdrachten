@@ -1,72 +1,35 @@
 #include <iostream>
 #include <string>
-#include <vector>
+#include <algorithm>
 
-//Met assistentie van ChatGPT
-bool isGene(const std::string& gene) {
-    std::string forbidden[] = { "ATG", "TAG", "TTA", "TGA" };
+bool isPalindrome(const std::string& s) {
+    std::string lowerCaseString = s;
+    std::transform(lowerCaseString.begin(), lowerCaseString.end(), lowerCaseString.begin(), ::tolower);
 
-    for (const std::string& triplet : forbidden) {
-        if (gene.find(triplet) != std::string::npos) {
+    int left = 0;
+    int right = lowerCaseString.length() - 1;
+
+    while (left < right) {
+        if (lowerCaseString[left] != lowerCaseString[right]) {
             return false;
         }
+        left++;
+        right--;
     }
 
-    return gene.length() % 3 == 0;
-}
-
-std::vector<std::string> findGenes(const std::string& genome) {
-    std::vector<std::string> genes;
-
-    int i = 0;
-    while (i < genome.length()) {
-        int startIndex = genome.find("ATG", i);
-        if (startIndex == std::string::npos) {
-            break;
-        }
-        startIndex += 3;
-
-        std::string list[] = { "TAG", "TTA", "TGA" };
-        int endIndex = genome.find(list[0], startIndex);
-        for (const std::string& end : list) {
-            int en = genome.find(end, startIndex);
-            if (en < endIndex && en != std::string::npos) {
-                endIndex = en;
-            }
-        }
-        endIndex += 1;
-        if (endIndex == std::string::npos) {
-            break;
-        }
-
-        int length = endIndex - startIndex;
-        std::string gene = genome.substr(startIndex, length);
-
-        if (isGene(gene)) {
-            genes.push_back(gene);
-        }
-
-        i = endIndex + 3;
-    }
-
-    return genes;
+    return true;
 }
 
 int main() {
-    std::string genome;
-    std::cout << "Enter a genome string: ";
-    std::cin >> genome;
+    std::string input;
+    std::cout << "Enter a string: ";
+    std::cin >> input;
 
-    std::vector<std::string> genes = findGenes(genome);
-
-    if (genes.empty()) {
-        std::cout << "No gene found." << std::endl;
+    if (isPalindrome(input)) {
+        std::cout << input << " is a palindrome" << std::endl;
     }
     else {
-        std::cout << "Genes found:" << std::endl;
-        for (const std::string& gene : genes) {
-            std::cout << gene << std::endl;
-        }
+        std::cout << input << " is not a palindrome" << std::endl;
     }
 
     return 0;
