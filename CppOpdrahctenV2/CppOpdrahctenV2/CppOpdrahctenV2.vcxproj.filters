@@ -47,5 +47,8 @@
     <ClInclude Include="D:\AA Web Downloads\ChromeDownloads5\gtest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="semaphore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

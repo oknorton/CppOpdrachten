@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Course.h" />
     <ClInclude Include="D:\AA Web Downloads\ChromeDownloads5\gtest.h" />
+    <ClInclude Include="semaphore.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="StopWatch.h" />
     <ClInclude Include="Triangle.h" />
