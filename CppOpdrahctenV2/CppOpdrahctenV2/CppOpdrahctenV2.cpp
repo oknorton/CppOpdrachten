@@ -1,17 +1,25 @@
 #include <iostream>
-#include "Triangle.h"
+#include <vector>
+#include <algorithm>
+#include <functional>
+
+// Typedef voor de lambda-functie
+typedef std::function<int(const std::vector<int>&)> MyLambdaType;
 
 int main() {
+    std::vector<int> numbers = { 1, 2, 3, 4, 5 };
 
+    MyLambdaType sum = [](const std::vector<int>& nums) {
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        return total;
+    };
 
-    // Create a triangle with specified sides
-    Triangle driehoek(3.0, 4.0, 5.0);
-    std::cout << "Custom Triangle:" << std::endl;
-    std::cout << "Side 1: " << driehoek.getSide1() << std::endl;
-    std::cout << "Side 2: " << driehoek.getSide2() << std::endl;
-    std::cout << "Side 3: " << driehoek.getSide3() << std::endl;
-    std::cout << "Area: " << driehoek.getArea() << std::endl;
-    std::cout << "Perimeter: " << driehoek.getPerimeter() << std::endl;
+    int result = sum(numbers);
+
+    std::cout << "De som van de getallen is: " << result << std::endl;
 
     return 0;
 }
