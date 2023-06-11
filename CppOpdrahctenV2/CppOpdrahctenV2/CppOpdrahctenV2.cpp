@@ -1,32 +1,32 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
-
-template<typename T>
-void removeDuplicates(std::vector<T>& v) {
-    std::sort(v.begin(), v.end());
-    auto last = std::unique(v.begin(), v.end());
-    v.erase(last, v.end());
-}
+#include <fstream>
+#include <string>
 
 int main() {
-    std::vector<int> numbers;
-
-    std::cout << "Enter ten integers: ";
-    for (int i = 0; i < 10; i++) {
-        int input;
-        std::cin >> input;
-        numbers.push_back(input);
+    std::ifstream inputFile("Exercise3_5.txt");
+    if (!inputFile) {
+        std::cout << "File does not exist." << std::endl;
+        return 1;
     }
 
-    removeDuplicates(numbers);
+    std::string line;
+    int characterCount = 0;
 
-    std::cout << "The distinct integers are: ";
-    for (const auto& number : numbers) {
-        std::cout << number << " ";
+    while (std::getline(inputFile, line)) {
+        characterCount += line.length();
     }
-    std::cout << std::endl;
+
+    inputFile.close();
+
+    std::ofstream outputFile("Exercise3_5.txt");
+    if (!outputFile) {
+        return 1;
+    }
+
+    outputFile << "Total number of characters: " << characterCount << std::endl;
+    outputFile.close();
+
+    std::cout << "Characterr count appended." << std::endl;
 
     return 0;
 }
