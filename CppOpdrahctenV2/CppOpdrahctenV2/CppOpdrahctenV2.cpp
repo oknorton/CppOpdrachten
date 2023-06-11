@@ -1,46 +1,43 @@
 #include <iostream>
-#include "Course.h"
+#include <vector>
+#include <algorithm>
+
+template<typename T>
+std::vector<T> intersect(const std::vector<T>& v1, const std::vector<T>& v2) {
+    std::vector<T> result;
+    for (const auto& element : v1) {
+        if (std::find(v2.begin(), v2.end(), element) != v2.end()) {
+            result.push_back(element);
+        }
+    }
+    return result;
+}
 
 int main() {
+    std::vector<std::string> vector1;
+    std::vector<std::string> vector2;
 
-	Course course1("Data Structures", 10);
-	Course course2("Database Systems", 15);
+    std::cout << "Enter five strings for vector1: ";
+    for (int i = 0; i < 5; i++) {
+        std::string input;
+        std::cin >> input;
+        vector1.push_back(input);
+    }
 
-	course1.addStudent("Peter Jones");
-	course1.addStudent("Brian Smith");
-	course1.addStudent("Anne Kennedy");
+    std::cout << "Enter five strings for vector2: ";
+    for (int i = 0; i < 5; i++) {
+        std::string input;
+        std::cin >> input;
+        vector2.push_back(input);
+    }
 
-	course2.addStudent("Peter Jones");
-	course2.addStudent("Steve Smith");
+    std::vector<std::string> intersection = intersect(vector1, vector2);
 
-	std::cout << "Number of students in course1: " <<
-		course1.getNumberOfStudents() << "\n";
-	std::string* students = course1.getStudents();
-	for (int i = 0; i < course1.getNumberOfStudents(); i++)
-		std::cout << students[i] << ", ";
+    std::cout << "The common strings are: ";
+    for (const auto& element : intersection) {
+        std::cout << element << " ";
+    }
+    std::cout << std::endl;
 
-	std::cout << "\nNumber of students in course2: "
-		<< course2.getNumberOfStudents() << "\n";
-	students = course2.getStudents();
-	for (int i = 0; i < course2.getNumberOfStudents(); i++)
-		std::cout << students[i] << ", ";
-
-	course1.dropStudent("Brian Smith");
-
-	std::cout << "\nNumber of students in course1 after dropping a student: " <<
-		course1.getNumberOfStudents() << "\n";
-	students = course1.getStudents();
-	for (int i = 0; i < course1.getNumberOfStudents(); i++)
-		std::cout << students[i] << ", ";
-
-	course2.clear();
-
-	std::cout << "\nNumber of students in course2 after clearing: "
-		<< course2.getNumberOfStudents() << "\n";
-	students = course2.getStudents();
-	for (int i = 0; i < course2.getNumberOfStudents(); i++)
-		std::cout << students[i] << ", ";
-
-	std::cin.get();
-	return 0;
+    return 0;
 }
