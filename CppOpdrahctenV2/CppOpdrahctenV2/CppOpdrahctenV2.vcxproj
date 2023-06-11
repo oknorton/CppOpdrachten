@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Course.cpp" />
     <ClCompile Include="CppOpdrahctenV2.cpp" />
     <ClCompile Include="StopWatch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Course.h" />
     <ClInclude Include="StopWatch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,58 +1,46 @@
 #include <iostream>
-#include <vector>
-
-std::vector<int> findLargestBlock(const std::vector<std::vector<int>>& m) {
-    int maxRow = 0;
-    int maxCol = 0;
-    int maxSize = 0;
-
-    int numRows = m.size();
-    int numCols = m[0].size();
-
-    std::vector<std::vector<int>> dp(numRows, std::vector<int>(numCols, 0));
-
-    for (int i = 0; i < numRows; i++) {
-        dp[i][0] = m[i][0];
-    }
-    for (int j = 0; j < numCols; j++) {
-        dp[0][j] = m[0][j];
-    }
-
-    for (int i = 1; i < numRows; i++) {
-        for (int j = 1; j < numCols; j++) {
-            if (m[i][j] == 1) {
-                dp[i][j] = std::min(dp[i - 1][j - 1], std::min(dp[i - 1][j], dp[i][j - 1])) + 1;
-                if (dp[i][j] > maxSize) {
-                    maxSize = dp[i][j];
-                    maxRow = i - maxSize + 1;
-                    maxCol = j - maxSize + 1;
-                }
-            }
-        }
-    }
-
-    return { maxRow, maxCol, maxSize };
-}
+#include "Course.h"
 
 int main() {
-    int numRows;
-    std::cout << "Enter the number of rows for the matrix: ";
-    std::cin >> numRows;
 
-    std::vector<std::vector<int>> matrix(numRows, std::vector<int>(numRows, 0));
-    std::cout << "Enter the matrix row by row:" << std::endl;
-    for (int i = 0; i < numRows; i++) {
-        for (int j = 0; j < numRows; j++) {
-            std::cin >> matrix[i][j];
-        }
-    }
+	Course course1("Data Structures", 10);
+	Course course2("Database Systems", 15);
 
-    std::vector<int> result = findLargestBlock(matrix);
-    int maxRow = result[0];
-    int maxCol = result[1];
-    int maxSize = result[2];
+	course1.addStudent("Peter Jones");
+	course1.addStudent("Brian Smith");
+	course1.addStudent("Anne Kennedy");
 
-    std::cout << "The maximum square submatrix is at (" << maxRow << ", " << maxCol << ") with size " << maxSize << std::endl;
+	course2.addStudent("Peter Jones");
+	course2.addStudent("Steve Smith");
 
-    return 0;
+	std::cout << "Number of students in course1: " <<
+		course1.getNumberOfStudents() << "\n";
+	std::string* students = course1.getStudents();
+	for (int i = 0; i < course1.getNumberOfStudents(); i++)
+		std::cout << students[i] << ", ";
+
+	std::cout << "\nNumber of students in course2: "
+		<< course2.getNumberOfStudents() << "\n";
+	students = course2.getStudents();
+	for (int i = 0; i < course2.getNumberOfStudents(); i++)
+		std::cout << students[i] << ", ";
+
+	course1.dropStudent("Brian Smith");
+
+	std::cout << "\nNumber of students in course1 after dropping a student: " <<
+		course1.getNumberOfStudents() << "\n";
+	students = course1.getStudents();
+	for (int i = 0; i < course1.getNumberOfStudents(); i++)
+		std::cout << students[i] << ", ";
+
+	course2.clear();
+
+	std::cout << "\nNumber of students in course2 after clearing: "
+		<< course2.getNumberOfStudents() << "\n";
+	students = course2.getStudents();
+	for (int i = 0; i < course2.getNumberOfStudents(); i++)
+		std::cout << students[i] << ", ";
+
+	std::cin.get();
+	return 0;
 }
