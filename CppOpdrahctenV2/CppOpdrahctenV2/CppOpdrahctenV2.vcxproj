@@ -129,11 +129,15 @@
   <ItemGroup>
     <ClCompile Include="Course.cpp" />
     <ClCompile Include="CppOpdrahctenV2.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="StopWatch.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Course.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,36 +1,14 @@
 #include <iostream>
-#include <fstream>
-#include <vector>
-#include <algorithm>
+#include "Triangle.h"
 
 int main() {
-    std::ifstream inputFile("Exercise3_8.txt");
-    if (!inputFile) {
-        return 1;
-    }
-
-    std::vector<int> numbers;
-    int number;
-    while (inputFile >> number) {
-        numbers.push_back(number);
-    }
-
-    inputFile.close();
-
-    std::sort(numbers.rbegin(), numbers.rend());
-
-    std::ofstream outputFile("Exercise3_8.txt");
-    if (!outputFile) {
-        return 1;
-    }
-
-    for (int num : numbers) {
-        outputFile << num << " ";
-    }
-
-    outputFile.close();
-
-    std::cout << "Numbers flipped" << std::endl;
+    Triangle driehoek(3.0, 4.0, 5.0);
+    std::cout << "Custom Triangle:" << std::endl;
+    std::cout << "Side 1: " << driehoek.getSide1() << std::endl;
+    std::cout << "Side 2: " << driehoek.getSide2() << std::endl;
+    std::cout << "Side 3: " << driehoek.getSide3() << std::endl;
+    std::cout << "Area: " << driehoek.getArea() << std::endl;
+    std::cout << "Perimeter: " << driehoek.getPerimeter() << std::endl;
 
     return 0;
 }
