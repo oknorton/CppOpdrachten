@@ -14,3 +14,21 @@ CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/Browse.VC.db-wal
 CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/ipch/AutoPCH/41f0187564803cc9/CPPOPDRAHCTENV2.ipch
 
 CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/.suo
+
+*.ipch
+
+*.log
+
+*.obj
+
+*.tlog
+
+*.pdb
+
+*.idb
+
+*.ilk
+
+*.recipe
+
+*.exe
