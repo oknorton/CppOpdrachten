@@ -1,32 +1,27 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
 
-void count(const char s[], int counts[]) {
-    for (int i = 0; i < 26; i++) {
-        counts[i] = 0;
-    }
+const int SIZE = 4;
 
-    for (int i = 0; s[i] != '\0'; i++) {
-        char c = tolower(s[i]);
-        if (isalpha(c)) {
-            counts[c - 'a']++;
-        }
+double sumColumn(const double m[][SIZE], int rowSize, int columnIndex) {
+    double sum = 0;
+    for (int i = 0; i < rowSize; i++) {
+        sum += m[i][columnIndex];
     }
+    return sum;
 }
 
 int main() {
-    char s[100];
-    int counts[26];
-
-    printf("Enter a string: ");
-    fgets(s, sizeof(s), stdin);
-
-    count(s, counts);
-
-    for (int i = 0; i < 26; i++) {
-        if (counts[i] > 0) {
-            printf("%c: %d times\n", 'a' + i, counts[i]);
+    double matrix[3][SIZE];
+    std::cout << "Enter a 3-by-4 matrix row by row:\n";
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            std::cin >> matrix[i][j];
         }
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        double colSum = sumColumn(matrix, 3, i);
+        std::cout << "Sum of the elements at column " << i + 1 << " is " << colSum << std::endl;
     }
 
     return 0;
