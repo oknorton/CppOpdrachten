@@ -1,86 +1,58 @@
 #include <iostream>
-#include <string>
 #include <vector>
-#include <cstdlib>
-#include <ctime>
 
-std::vector<std::string> words = { "hallo", "wereld", "en Peter", "programma" };
+std::vector<int> findLargestBlock(const std::vector<std::vector<int>>& m) {
+    int maxRow = 0;
+    int maxCol = 0;
+    int maxSize = 0;
 
-std::string getRandomWord() {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    int index = std::rand() % words.size();
-    return words[index];
-}
+    int numRows = m.size();
+    int numCols = m[0].size();
 
-std::string getHiddenWord(const std::string& word, const std::vector<bool>& revealed) {
-    std::string hiddenWord;
-    for (size_t i = 0; i < word.length(); ++i) {
-        if (revealed[i]) {
-            hiddenWord += word[i];
-        }
-        else {
-            hiddenWord += '*';
-        }
+    std::vector<std::vector<int>> dp(numRows, std::vector<int>(numCols, 0));
+
+    for (int i = 0; i < numRows; i++) {
+        dp[i][0] = m[i][0];
     }
-    return hiddenWord;
-}
-
-bool isLetterInWord(const std::string& word, char letter) {
-    return word.find(letter) != std::string::npos;
-}
-
-void revealLetter(const std::string& word, std::vector<bool>& revealed, char letter) {
-    for (size_t i = 0; i < word.length(); ++i) {
-        if (word[i] == letter) {
-            revealed[i] = true;
-        }
+    for (int j = 0; j < numCols; j++) {
+        dp[0][j] = m[0][j];
     }
-}
 
-bool isWordComplete(const std::vector<bool>& revealed) {
-    for (bool letterRevealed : revealed) {
-        if (!letterRevealed) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void playHangman() {
-    std::string word = getRandomWord();
-    std::vector<bool> revealed(word.length(), false);
-    int misses = 0;
-
-    while (true) {
-        std::cout << "(Guess) Enter a letter in the word " << getHiddenWord(word, revealed) << " > ";
-        char guess;
-        std::cin >> guess;
-
-        if (isLetterInWord(word, guess)) {
-            if (isWordComplete(revealed)) {
-                std::cout << "The word is " << word << ". You missed " << misses << " time." << std::endl;
-                break;
+    for (int i = 1; i < numRows; i++) {
+        for (int j = 1; j < numCols; j++) {
+            if (m[i][j] == 1) {
+                dp[i][j] = std::min(dp[i - 1][j - 1], std::min(dp[i - 1][j], dp[i][j - 1])) + 1;
+                if (dp[i][j] > maxSize) {
+                    maxSize = dp[i][j];
+                    maxRow = i - maxSize + 1;
+                    maxCol = j - maxSize + 1;
+                }
             }
-            if (std::find(revealed.begin(), revealed.end(), true) != revealed.end()) {
-                std::cout << guess << " is already in the word" << std::endl;
-            }
-            revealLetter(word, revealed, guess);
-        }
-        else {
-            std::cout << guess << " is not in the word" << std::endl;
-            misses++;
         }
     }
+
+    return { maxRow, maxCol, maxSize };
 }
 
 int main() {
-    char playAgain;
-    do {
-        playHangman();
+    int numRows;
+    std::cout << "Enter the number of rows for the matrix: ";
+    std::cin >> numRows;
 
-        std::cout << "Do you want to guess for another word? Enter 'y' or 'n' > ";
-        std::cin >> playAgain;
-    } while (playAgain == 'y');
+    std::vector<std::vector<int>> matrix(numRows, std::vector<int>(numRows, 0));
+    std::cout << "Enter the matrix row by row:" << std::endl;
+    for (int i = 0; i < numRows; i++) {
+        for (int j = 0; j < numRows; j++) {
+            std::cin >> matrix[i][j];
+        }
+    }
+
+    std::vector<int> result = findLargestBlock(matrix);
+    int maxRow = result[0];
+    int maxCol = result[1];
+    int maxSize = result[2];
+
+    std::cout << "The maximum square submatrix is at (" << maxRow << ", " << maxCol << ") with size " << maxSize << std::endl;
 
     return 0;
 }
