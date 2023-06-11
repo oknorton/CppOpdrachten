@@ -1,0 +1,16 @@
+
+*.vsidx
+
+*.lock
+
+*.db
+
+*.db-shm
+
+CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/Browse.VC.db-wal
+
+*.opendb
+
+CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/ipch/AutoPCH/41f0187564803cc9/CPPOPDRAHCTENV2.ipch
+
+CppOpdrahctenV2/.vs/CppOpdrahctenV2/v17/.suo
