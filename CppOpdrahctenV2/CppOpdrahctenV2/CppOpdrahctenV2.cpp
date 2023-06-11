@@ -1,40 +1,36 @@
 #include <iostream>
 #include <fstream>
-#include <cctype>
-#include <string>
+#include <vector>
+#include <algorithm>
 
-int countVowels(const std::string& text) {
-    int vowelCount = 0;
-    for (char c : text) {
-        c = std::tolower(c);
-        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
-            vowelCount++;
-    }
-    return vowelCount;
-}
-//Testbestanden om te gebruiken "bestand1.txt", "bestand2.txt"
 int main() {
-    std::string filename;
-    std::cout << "Kies een bestand: ";
-    std::cin >> filename;
-
-    std::ifstream inputFile(filename);
+    std::ifstream inputFile("Exercise3_8.txt");
     if (!inputFile) {
-        std::cout << "Bestand bestaat niet." << std::endl;
         return 1;
     }
 
-    std::string fileContents;
-    std::string line;
-    while (std::getline(inputFile, line)) {
-        fileContents += line;
+    std::vector<int> numbers;
+    int number;
+    while (inputFile >> number) {
+        numbers.push_back(number);
     }
 
     inputFile.close();
 
-    int vowelCount = countVowels(fileContents);
+    std::sort(numbers.rbegin(), numbers.rend());
 
-    std::cout << "Vowel count: " << vowelCount << std::endl;
+    std::ofstream outputFile("Exercise3_8.txt");
+    if (!outputFile) {
+        return 1;
+    }
+
+    for (int num : numbers) {
+        outputFile << num << " ";
+    }
+
+    outputFile.close();
+
+    std::cout << "Numbers flipped" << std::endl;
 
     return 0;
 }
